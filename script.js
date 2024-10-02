@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Dados fictícios para o exemplo
+    // Dados atualizados para 2024
     const SOCIAL_MEDIA_DATA = {
-        Facebook: 1200,
-        Twitter: 8000,
-        Instagram: 2000,
-        LinkedIn: 2000,
-        TikTok: 7000,
+        Facebook: 2960000000, // 2.96 bilhões
+        Twitter: 619000000,   // 619 milhões
+        Instagram: 2350000000, // 2.35 bilhões
+        LinkedIn: 1000000000,  // 1 bilhão
+        TikTok: 2000000000    // 2 bilhões
     };
 
     const CHART_COLORS = [
