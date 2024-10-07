@@ -1,80 +1,104 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Dados atualizados para 2024
-    const SOCIAL_MEDIA_DATA = {
-        Facebook: 2960000000, // 2.96 bilhões
-        Twitter: 619000000,   // 619 milhões
-        Instagram: 2350000000, // 2.35 bilhões
-        LinkedIn: 1000000000,  // 1 bilhão
-        TikTok: 2000000000    // 2 bilhões
+    const VOTING_DATA = {
+        '2016': {
+            'Prefeitos': 110000000,
+            'Presidentes': 120000000
+        },
+        '2018': {
+            'Prefeitos': 130000000,
+            'Presidentes': 150000000
+        },
+        '2020': {
+            'Prefeitos': 140000000,
+            'Presidentes': 160000000
+        },
+        '2022': {
+            'Prefeitos': 135000000,
+            'Presidentes': 170000000
+        },
+        '2024': {
+            'Prefeitos': 150000000,
+            'Presidentes': 180000000
+        }
     };
 
-    const CHART_COLORS = [
-        'rgba(255, 99, 132, 0.6)',
-        'rgba(54, 162, 235, 0.6)',
-        'rgba(255, 206, 86, 0.6)',
-        'rgba(153, 102, 255, 0.6)',
-        'rgba(255, 159, 64, 0.6)'
-    ];
+    const CHART_COLORS = {
+        'Prefeitos': 'rgba(255, 99, 132, 0.8)',
+        'Presidentes': 'rgba(255, 159, 64, 0.8)'
+    };
 
     const CHART_OPTIONS = {
         responsive: true,
+        animation: {
+            duration: 1500,
+            easing: 'easeOutBounce'
+        },
         plugins: {
             legend: {
                 position: 'top',
                 labels: {
-                    color: '#ffffff' // Cor da legenda
+                    color: '#ffffff'
                 }
             },
             tooltip: {
                 callbacks: {
                     label: function(tooltipItem) {
-                        let label = tooltipItem.label || '';
+                        let label = tooltipItem.dataset.label || '';
                         if (label) {
                             label += ': ';
                         }
-                        label += tooltipItem.raw;
+                        label += tooltipItem.raw.toLocaleString();
                         return label;
                     }
                 }
             }
         },
-        animation: {
-            duration: 10005, // Duração da animação em milissegundos
-            easing: 'easeOutBounce' // Tipo de animação
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: '#ffffff'
+                },
+                grid: {
+                    color: 'rgba(255, 255, 255, 0.2)'
+                }
+            },
+            x: {
+                ticks: {
+                    color: '#ffffff'
+                },
+                grid: {
+                    color: 'rgba(255, 255, 255, 0.2)'
+                }
+            }
         }
     };
 
-    // Função para criar gráficos de barras
-    function createBarChart(ctx, labels, data, title) {
+    function createBarChart(ctx, labels, datasets) {
         return new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
-                datasets: [{
-                    label: title,
-                    data: data,
-                    backgroundColor: CHART_COLORS,
-                    borderColor: CHART_COLORS.map(color => color.replace(/0.6\)/, '1)')),
-                    borderWidth: 1
-                }]
+                datasets: datasets
             },
             options: CHART_OPTIONS
         });
     }
 
-    // Função principal para inicializar o gráfico
     function initChart() {
-        const ctx = document.getElementById('userChart').getContext('2d');
-
-        // Dados para o gráfico
-        const labels = Object.keys(SOCIAL_MEDIA_DATA);
-        const chartData = Object.values(SOCIAL_MEDIA_DATA);
-
-        // Cria o gráfico de barras
-        createBarChart(ctx, labels, chartData, 'Distribuição de Usuários');
+        const ctx = document.getElementById('votingChart').getContext('2d');
+        const labels = Object.keys(VOTING_DATA);
+        const datasets = Object.keys(VOTING_DATA[labels[0]]).map(category => {
+            return {
+                label: category,
+                data: labels.map(year => VOTING_DATA[year][category]),
+                backgroundColor: CHART_COLORS[category],
+                borderColor: CHART_COLORS[category].replace(/0.8\)/, '1)'),
+                borderWidth: 1
+            };
+        });
+        createBarChart(ctx, labels, datasets);
     }
 
-    // Inicializa o gráfico
     initChart();
 });
- 
