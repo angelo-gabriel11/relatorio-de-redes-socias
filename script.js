@@ -1,104 +1,71 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const VOTING_DATA = {
-        '2016': {
-            'Prefeitos': 110000000,
-            'Presidentes': 120000000
-        },
-        '2018': {
-            'Prefeitos': 130000000,
-            'Presidentes': 150000000
-        },
-        '2020': {
-            'Prefeitos': 140000000,
-            'Presidentes': 160000000
-        },
-        '2022': {
-            'Prefeitos': 135000000,
-            'Presidentes': 170000000
-        },
-        '2024': {
-            'Prefeitos': 150000000,
-            'Presidentes': 180000000
-        }
-    };
+// Lista de carros disponíveis
+const carrosDisponiveis = [
+    { modelo: 'Carro Turbo 2020', preco: 100000 },
+    { modelo: 'Carro Turbo 2021', preco: 120000 },
+    { modelo: 'Carro Turbo 2022', preco: 150000 },
+    { modelo: 'Carro Turbo 2023', preco: 200000 },
+    { modelo: 'Carro Turbo 2024', preco: 250000 },
+];
 
-    const CHART_COLORS = {
-        'Prefeitos': 'rgba(255, 99, 132, 0.8)',
-        'Presidentes': 'rgba(255, 159, 64, 0.8)'
-    };
+// Função para exibir os carros na seção de carros disponíveis
+function listarCarros() {
+    const listaCarros = document.getElementById('listaCarros');
+    listaCarros.innerHTML = ''; // Limpa a lista
 
-    const CHART_OPTIONS = {
-        responsive: true,
-        animation: {
-            duration: 1500,
-            easing: 'easeOutBounce'
+    carrosDisponiveis.forEach(car => {
+        const carroDiv = document.createElement('div');
+        carroDiv.classList.add('carro');
+        carroDiv.innerHTML = `
+            <h3>${car.modelo}</h3>
+            <p>Preço: R$ ${car.preco.toLocaleString()}</p>
+            <button onclick="comprarCarro('${car.modelo}')">Comprar</button>
+        `;
+        listaCarros.appendChild(carroDiv);
+    });
+}
+
+// Função para simular a compra de um carro
+function comprarCarro(modelo) {
+    const carro = carrosDisponiveis.find(car => car.modelo === modelo);
+    if (carro) {
+        alert(`Você comprou o ${modelo} por R$ ${carro.preco.toLocaleString()}`);
+        // Remove o carro da lista
+        carrosDisponiveis.splice(carrosDisponiveis.indexOf(carro), 1);
+        listarCarros(); // Atualiza a lista de carros
+    } else {
+        alert('Carro não encontrado.');
+    }
+}
+
+// Gráfico de carros disponíveis
+const ctx = document.getElementById('carrosGrafico').getContext('2d');
+const carrosGrafico = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['2020', '2021', '2022', '2023', '2024'],
+        datasets: [{
+            label: 'Número de Carros Disponíveis',
+            data: [5, 70, 500, 10, 20], // Pode ser ajustado conforme o número real de carros
+            backgroundColor: 'rgba(255, 215, 0, 0.7)',
+            borderColor: 'rgba(255, 215, 0, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
         },
         plugins: {
             legend: {
-                position: 'top',
                 labels: {
-                    color: '#ffffff'
-                }
-            },
-            tooltip: {
-                callbacks: {
-                    label: function(tooltipItem) {
-                        let label = tooltipItem.dataset.label || '';
-                        if (label) {
-                            label += ': ';
-                        }
-                        label += tooltipItem.raw.toLocaleString();
-                        return label;
-                    }
-                }
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    color: '#ffffff'
-                },
-                grid: {
-                    color: 'rgba(255, 255, 255, 0.2)'
-                }
-            },
-            x: {
-                ticks: {
-                    color: '#ffffff'
-                },
-                grid: {
-                    color: 'rgba(255, 255, 255, 0.2)'
+                    color: 'white'
                 }
             }
         }
-    };
-
-    function createBarChart(ctx, labels, datasets) {
-        return new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: datasets
-            },
-            options: CHART_OPTIONS
-        });
     }
-
-    function initChart() {
-        const ctx = document.getElementById('votingChart').getContext('2d');
-        const labels = Object.keys(VOTING_DATA);
-        const datasets = Object.keys(VOTING_DATA[labels[0]]).map(category => {
-            return {
-                label: category,
-                data: labels.map(year => VOTING_DATA[year][category]),
-                backgroundColor: CHART_COLORS[category],
-                borderColor: CHART_COLORS[category].replace(/0.8\)/, '1)'),
-                borderWidth: 1
-            };
-        });
-        createBarChart(ctx, labels, datasets);
-    }
-
-    initChart();
 });
+
+// Chama a função para listar carros ao carregar a página
+window.onload = listarCarros;

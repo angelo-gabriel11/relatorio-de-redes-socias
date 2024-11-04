@@ -3,21 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparação de Votantes: Prefeitos e Presidentes</title>
+    <title>Turbo Cars</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Comparação de Votantes</h1>
-            <h2>Prefeitos e Presidentes</h2>
-        </header>
-        <canvas id="votingChart"></canvas>
-        <footer>
-            <p>&copy; 2024 Comparação de Votantes. Todos os direitos reservados.</p>
-        </footer>
-    </div>
-    <script src="script.js"></script>
+    <header>
+        <h1>Turbo Cars</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#comprar">Comprar</a></li>
+                <li><a href="#vender">Vender</a></li>
+                <li><a href="#sobre">Sobre Nós</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="banner">
+            <h2>Potência e Performance ao Seu Alcance</h2>
+            <button onclick="window.location.href='#comprar'">Ver Carros à Venda</button>
+            <button onclick="window.location.href='#vender'">Vender Meu Carro</button>
+        </section>
+
+        <section id="grafico">
+            <canvas id="carrosGrafico" width="400" height="200"></canvas>
+        </section>
+
+        <section id="carros">
+            <h2>Carros Disponíveis</h2>
+            <div id="listaCarros"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Contato: angelo.bottega@escola.pr.gov.br | Redes Sociais</p>
+    </footer>
+
+    <script>
+        // Lista de carros disponíveis
+        const carrosDisponiveis = [
+            { modelo: 'Carro Turbo 2020', preco: 100000 },
+            { modelo: 'Carro Turbo 2021', preco: 120000 },
+            { modelo: 'Carro Turbo 2022', preco: 150000 },
+            { modelo: 'Carro Turbo 2023', preco: 200000 },
+            { modelo: 'Carro Turbo 2024', preco: 250000 },
+        ];
+
+        // Função para exibir os carros na seção de carros disponíveis
+        function listarCarros() {
+            const listaCarros = document.getElementById('listaCarros');
+            listaCarros.innerHTML = ''; // Limpa a lista
+
+            carrosDisponiveis.forEach(car => {
+                const carroDiv = document.createElement('div');
+                carroDiv.classList.add('carro');
+                carroDiv.innerHTML = `
+                    <h3>${car.modelo}</h3>
+                    <p>Preço: R$ ${car.preco.toLocaleString()}</p>
+                    <button onclick="comprarCarro('${car.modelo}')">Comprar</button>
+                `;
+                listaCarros.appendChild(carroDiv);
+            });
+        }
+
+        // Função para simular a compra de um carro
+        function comprarCarro(modelo) {
+            const carro = carrosDisponiveis.find(car => car.modelo === modelo);
+            if (carro) {
+                alert(`Você comprou o ${modelo} por R$ ${carro.preco.toLocaleString()}`);
+                // Aqui você pode adicionar lógica para remover o carro da lista, se desejar
+            } else {
+                alert('Carro não encontrado.');
+            }
+        }
+
+        // Gráfico de carros disponíveis
+        const ctx = document.getElementById('carrosGrafico').getContext('2d');
+        const carrosGrafico = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Número de Carros Disponíveis',
+                    data: [1, 1, 1, 1, 1], // Pode ser ajustado conforme o número real de carros
+                    backgroundColor: 'rgba(255, 215, 0, 0.7)',
+                    borderColor: 'rgba(255, 215, 0, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chama a função para listar carros ao carregar a página
+        window.onload = listarCarros;
+    </script>
 </body>
 </html>
+
+
+

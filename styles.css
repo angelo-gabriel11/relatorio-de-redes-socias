@@ -1,60 +1,62 @@
-* {
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #007BFF; /* Azul para o fundo */
-    color: #ffffff; /* Cor do texto */
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* Ocupa a altura total da tela */
-    padding: 20px;
 }
 
 header {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
     text-align: center;
-    margin-bottom: 20px;
 }
 
-h1 {
-    font-size: 2.5rem; /* Tamanho maior do texto */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+nav ul {
+    list-style: none;
+    padding: 0;
 }
 
-h2 {
-    font-size: 1.5rem; /* Tamanho do subtítulo */
-    margin-bottom: 20px;
-    font-weight: 300;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+nav ul li {
+    display: inline;
+    margin: 0 15px;
 }
 
-canvas {
-    width: 100% !important; /* Garante que o canvas ocupe a largura total */
-    height: 60vh !important; /* Altura fixa */
-    border-radius: 10px; /* Bordas arredondadas */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra para o gráfico */
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+#banner {
+    text-align: center;
+    padding: 50px 0;
+}
+
+#banner button {
+    background-color: rgba(255, 215, 0, 0.8);
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+#grafico {
+    margin: 50px auto;
+    width: 80%;
+}
+
+.carro {
+    background: rgba(255, 255, 255, 0.1);
+    margin: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
 }
 
 footer {
-    margin-top: 20px;
     text-align: center;
-    font-size: 0.9rem;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
 }
 
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2rem; /* Reduz o tamanho em telas menores */
-    }
-
-    h2 {
-        font-size: 1.2rem; /* Reduz o tamanho em telas menores */
-    }
-}
